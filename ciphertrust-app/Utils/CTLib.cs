@@ -45,7 +45,7 @@ namespace ciphertrust_app.Utils
             try
             {
 
-                /*NaeRijndaelKey key = new NaeRijndaelKey(session, KeyName);
+                NaeRijndaelKey key = new NaeRijndaelKey(session, KeyName);
 
                 byte[] iv = { 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31,
                     0x32, 0x33, 0x34, 0x35 };
@@ -66,7 +66,7 @@ namespace ciphertrust_app.Utils
                 encrBytes = memstr.ToArray();
                 Console.WriteLine("Encrypted Data (B64 encoded): {0}", Convert.ToBase64String(encrBytes));
 
-                dataEncriptada = Convert.ToBase64String(encrBytes);*/
+                dataEncriptada = Convert.ToBase64String(encrBytes);
 
                 /*byte[] iv = HexStringToByteArray("3ABBE543B526F36290658A066F6CA619");
 
@@ -102,7 +102,7 @@ namespace ciphertrust_app.Utils
                 }*/
 
                 // El vector de inicialización (IV) debe ser el mismo en ambas implementaciones.
-                byte[] iv = new byte[16];  // IV de 16 bytes para AES CBC
+                /*byte[] iv = new byte[16];  // IV de 16 bytes para AES CBC
                 new Random().NextBytes(iv);  // Para simular que IV es aleatorio, puedes usar otro método si lo prefieres.
                 NaeRijndaelKey key = new NaeRijndaelKey(session, KeyName);
                  // Clave de ejemplo de 16 bytes para AES-128
@@ -132,7 +132,7 @@ namespace ciphertrust_app.Utils
                         // Mostrar los datos cifrados en base64
                         Console.WriteLine("Encrypted Data (B64 encoded): {0}", Convert.ToBase64String(encrBytes));
                     }
-                }
+                }*/
 
             }
             catch (Exception e)
@@ -171,7 +171,7 @@ namespace ciphertrust_app.Utils
                 key.Padding = PaddingMode.PKCS7;
                 key.Mode = CipherMode.CBC;
 
-                byte[] encrBytes = null;
+                byte[] encrBytes = System.Text.Encoding.UTF8.GetBytes(data);
 
                 ICryptoTransform decryptor = key.CreateDecryptor();
                 System.IO.MemoryStream memstr2 = new System.IO.MemoryStream();
