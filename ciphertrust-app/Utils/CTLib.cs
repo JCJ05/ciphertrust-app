@@ -45,7 +45,7 @@ namespace ciphertrust_app.Utils
             try
             {
 
-                NaeRijndaelKey key = new NaeRijndaelKey(session, KeyName);
+                /*NaeRijndaelKey key = new NaeRijndaelKey(session, KeyName);
 
                 byte[] iv = { 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31,
                     0x32, 0x33, 0x34, 0x35 };
@@ -66,7 +66,40 @@ namespace ciphertrust_app.Utils
                 encrBytes = memstr.ToArray();
                 Console.WriteLine("Encrypted Data (B64 encoded): {0}", Convert.ToBase64String(encrBytes));
 
-                dataEncriptada = Convert.ToBase64String(encrBytes);
+                dataEncriptada = Convert.ToBase64String(encrBytes);*/
+
+                byte[] iv = HexStringToByteArray("3ABBE543B526F36290658A066F6CA619");
+
+                // Obtener la clave desde el HSM
+                NaeRijndaelKey key = new NaeRijndaelKey(session, KeyName);
+
+                // Convertir los datos a bytes
+                byte[] inputBytes = Encoding.UTF8.GetBytes(data);
+
+                // Configurar el cifrado AES en modo CBC con PKCS7 Padding
+                using (Aes aesAlg = Aes.Create())
+                {
+                    // Aquí obtienes la clave del objeto NaeRijndaelKey
+                    aesAlg.IV = iv;            // IV (Vector de Inicialización)
+                    aesAlg.Mode = CipherMode.CBC;  // Modo CBC
+                    aesAlg.Padding = PaddingMode.PKCS7; // Relleno PKCS7
+
+                    // Crear el cifrador
+                    using (ICryptoTransform encryptor = key.CreateEncryptor())
+                    using (MemoryStream msEncrypt = new MemoryStream())
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        csEncrypt.Write(inputBytes, 0, inputBytes.Length);
+                        csEncrypt.Close();
+
+                        // Obtener el resultado encriptado
+                        byte[] encryptedBytes = msEncrypt.ToArray();
+
+                        // Codificar en Base64 (igual que en Java)
+                        dataEncriptada = Convert.ToBase64String(encryptedBytes);
+                        Console.WriteLine("Encrypted Data (Base64 encoded): " + dataEncriptada);
+                    }
+                }
 
             }
             catch (Exception e)
@@ -80,6 +113,15 @@ namespace ciphertrust_app.Utils
 
         }
 
+        public static byte[] HexStringToByteArray(string hex)
+        {
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < hex.Length; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            return bytes;
+        }
         public string? decryptDataWithSecretKey(string KeyName, NaeSession session, string data) {
 
             string desencriptarData = null;
