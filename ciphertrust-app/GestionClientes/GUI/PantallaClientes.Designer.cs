@@ -175,6 +175,7 @@
             btnExportar.TabIndex = 4;
             btnExportar.Text = "Exportar datos";
             btnExportar.UseVisualStyleBackColor = true;
+            btnExportar.Click += btnExportar_Click;
             // 
             // btnDesencriptar
             // 
@@ -184,6 +185,7 @@
             btnDesencriptar.TabIndex = 3;
             btnDesencriptar.Text = "Desencriptar";
             btnDesencriptar.UseVisualStyleBackColor = true;
+            btnDesencriptar.Click += btnDesencriptar_Click;
             // 
             // btnEliminar
             // 
@@ -193,6 +195,7 @@
             btnEliminar.TabIndex = 2;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // btnModificar
             // 
@@ -202,6 +205,7 @@
             btnModificar.TabIndex = 1;
             btnModificar.Text = "Modificar";
             btnModificar.UseVisualStyleBackColor = true;
+            btnModificar.Click += btnModificar_Click;
             // 
             // btnAgregar
             // 
@@ -221,6 +225,7 @@
             btnGuardar.Size = new Size(94, 76);
             btnGuardar.TabIndex = 14;
             btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnCancelar
             // 
