@@ -68,7 +68,7 @@ namespace ciphertrust_app.Utils
 
                 dataEncriptada = Convert.ToBase64String(encrBytes);*/
 
-                byte[] iv = HexStringToByteArray("3ABBE543B526F36290658A066F6CA619");
+                /*byte[] iv = HexStringToByteArray("3ABBE543B526F36290658A066F6CA619");
 
                 // Obtener la clave desde el HSM
                 NaeRijndaelKey key = new NaeRijndaelKey(session, KeyName);
@@ -98,6 +98,40 @@ namespace ciphertrust_app.Utils
                         // Codificar en Base64 (igual que en Java)
                         dataEncriptada = Convert.ToBase64String(encryptedBytes);
                         Console.WriteLine("Encrypted Data (Base64 encoded): " + dataEncriptada);
+                    }
+                }*/
+
+                // El vector de inicialización (IV) debe ser el mismo en ambas implementaciones.
+                byte[] iv = new byte[16];  // IV de 16 bytes para AES CBC
+                new Random().NextBytes(iv);  // Para simular que IV es aleatorio, puedes usar otro método si lo prefieres.
+
+                // Crear la clave de cifrado, asegurándose de que sea de 16, 24 o 32 bytes (dependiendo de AES-128, AES-192, o AES-256)
+                byte[] key = System.Text.Encoding.UTF8.GetBytes("user1keyuser1key");  // Clave de ejemplo de 16 bytes para AES-128
+
+                // Crear un objeto AES
+                using (Aes aesAlg = Aes.Create())
+                {
+                    aesAlg.Mode = CipherMode.CBC;
+                    aesAlg.Padding = PaddingMode.PKCS7;  // PKCS5Padding en Java es lo mismo que PKCS7 en .NET
+                    aesAlg.Key = key;
+                    aesAlg.IV = iv;
+
+                    // Crear el cifrador
+                    ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+                    // Usar MemoryStream para almacenar los bytes cifrados
+                    using (MemoryStream memstr = new MemoryStream())
+                    using (CryptoStream encrstr = new CryptoStream(memstr, encryptor, CryptoStreamMode.Write))
+                    {
+                        byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes("Hello World!");
+                        encrstr.Write(inputBytes, 0, inputBytes.Length);
+                        encrstr.Close();  // Esto cierra el stream y finaliza la encriptación
+
+                        byte[] encrBytes = memstr.ToArray();
+                        dataEncriptada = Convert.ToBase64String(encrBytes);
+
+                        // Mostrar los datos cifrados en base64
+                        Console.WriteLine("Encrypted Data (B64 encoded): {0}", Convert.ToBase64String(encrBytes));
                     }
                 }
 
