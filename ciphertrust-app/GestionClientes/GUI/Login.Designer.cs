@@ -32,13 +32,13 @@
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
+            btnIngresar = new Button();
+            txtBoxPass = new TextBox();
+            txtBoxUser = new TextBox();
             label3 = new Label();
             label2 = new Label();
             pictureBox2 = new PictureBox();
             label1 = new Label();
-            btnIngresar = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -66,8 +66,8 @@
             // 
             panel2.BackColor = SystemColors.WindowFrame;
             panel2.Controls.Add(btnIngresar);
-            panel2.Controls.Add(textBox2);
-            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(txtBoxPass);
+            panel2.Controls.Add(txtBoxUser);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(pictureBox2);
@@ -77,19 +77,32 @@
             panel2.Size = new Size(358, 321);
             panel2.TabIndex = 1;
             // 
-            // textBox2
+            // btnIngresar
             // 
-            textBox2.Location = new Point(173, 212);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(172, 27);
-            textBox2.TabIndex = 5;
+            btnIngresar.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnIngresar.Location = new Point(79, 265);
+            btnIngresar.Name = "btnIngresar";
+            btnIngresar.Size = new Size(211, 41);
+            btnIngresar.TabIndex = 6;
+            btnIngresar.Text = "Ingresar";
+            btnIngresar.UseVisualStyleBackColor = true;
+            btnIngresar.Click += btnIngresar_Click;
             // 
-            // textBox1
+            // txtBoxPass
             // 
-            textBox1.Location = new Point(173, 151);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(172, 27);
-            textBox1.TabIndex = 4;
+            txtBoxPass.Location = new Point(173, 212);
+            txtBoxPass.Name = "txtBoxPass";
+            txtBoxPass.Size = new Size(172, 27);
+            txtBoxPass.TabIndex = 5;
+            txtBoxPass.UseSystemPasswordChar = true;
+            txtBoxPass.KeyDown += txtBoxPass_KeyDown;
+            // 
+            // txtBoxUser
+            // 
+            txtBoxUser.Location = new Point(173, 151);
+            txtBoxUser.Name = "txtBoxUser";
+            txtBoxUser.Size = new Size(172, 27);
+            txtBoxUser.TabIndex = 4;
             // 
             // label3
             // 
@@ -133,20 +146,8 @@
             label1.Size = new Size(279, 62);
             label1.TabIndex = 0;
             label1.Text = "Bienvenidos\r\n";
-            label1.Click += label1_Click;
             // 
-            // btnIngresar
-            // 
-            btnIngresar.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnIngresar.Location = new Point(79, 265);
-            btnIngresar.Name = "btnIngresar";
-            btnIngresar.Size = new Size(211, 41);
-            btnIngresar.TabIndex = 6;
-            btnIngresar.Text = "Ingresar";
-            btnIngresar.UseVisualStyleBackColor = true;
-            btnIngresar.Click += btnIngresar_Click;
-            // 
-            // Form1
+            // Login
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -156,7 +157,7 @@
             Controls.Add(panel1);
             MaximizeBox = false;
             MaximumSize = new Size(int.MaxValue, int.MaxValue);
-            Name = "Form1";
+            Name = "Login";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             panel1.ResumeLayout(false);
@@ -174,8 +175,8 @@
         private Panel panel2;
         private Label label1;
         private PictureBox pictureBox2;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox txtBoxPass;
+        private TextBox txtBoxUser;
         private Label label3;
         private Label label2;
         private Button btnIngresar;

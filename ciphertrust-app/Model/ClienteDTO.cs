@@ -8,14 +8,14 @@ namespace ciphertrust_app.Model
 {
     internal class ClienteDTO
     {
-        private int id { get; set; }
-        private string nombre { get; set; }
-        private string apellido { get; set; }
-        private string direccion { get; set; }
-        private string telefono { get; set; }
-        private string dni { get; set; }
-        private string user { get; set; }
-        private string pass { get; set; }
+        public int id { get; set; }
+        public string nombre { get; set; }
+        public string apellido { get; set; }
+        public string direccion { get; set; }
+        public string telefono { get; set; }
+        public string dni { get; set; }
+        public string user { get; set; }
+        public string pass { get; set; }
 
         public ClienteDTO(int id, String nombre, string apellido, string direccion, string telefono, string dni, string user, string pass)
         {
@@ -58,6 +58,8 @@ namespace ciphertrust_app.Model
             this.dni = dni;
             this.user = user;
         }
+
+
 
     }
 }
