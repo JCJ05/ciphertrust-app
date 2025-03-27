@@ -40,9 +40,9 @@ namespace ciphertrust_app
             dataGridClientes.SelectionChanged += SeleccionarCliente;
         }
 
-        public void setPass(string data , string dni)
+        public void setPass(string data, string dni)
         {
-           
+
             ClienteConexion clienteConexion = new ClienteConexion();
             ClienteDTO clienteModificado;
             bool rsptaM = false;
@@ -222,87 +222,95 @@ namespace ciphertrust_app
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (flag_operacion == 1)
+            string nombre = txtNombre.Text;
+            string apellido = txtApellido.Text;
+            string direccion = txtDireccion.Text;
+            string telefono = txtTelefono.Text;
+            string dni = txtDNI.Text;
+            string user = txtUsuario.Text;
+
+            if (System.String.IsNullOrEmpty(nombre) || System.String.IsNullOrEmpty(apellido)
+               || System.String.IsNullOrEmpty(direccion) || System.String.IsNullOrEmpty(telefono)
+               || System.String.IsNullOrEmpty(dni) || System.String.IsNullOrEmpty(user))
             {
-                ClienteConexion clienteConexion = new ClienteConexion();
 
-                string nombre = txtNombre.Text;
-                string apellido = txtApellido.Text;
-                string direccion = txtDireccion.Text;
-                string telefono = txtTelefono.Text;
-                string dni = txtDNI.Text;
-                string user = txtUsuario.Text;
+                MessageBox.Show("Error, hay datos que estan vacio por favor completarlos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
 
-                ClienteDTO cliente = new ClienteDTO(nombre, apellido, direccion, telefono, dni, user);
-                ClienteDTO clienteGuardado = clienteConexion.agregarConUsuario(cliente);
-
-                if (clienteGuardado.direccion != null && clienteGuardado.telefono != null)
+                if (flag_operacion == 1)
                 {
+                    ClienteConexion clienteConexion = new ClienteConexion();
 
-                    if (!clienteGuardado.direccion.Equals(""))
+
+
+                    ClienteDTO cliente = new ClienteDTO(nombre, apellido, direccion, telefono, dni, user);
+                    ClienteDTO clienteGuardado = clienteConexion.agregarConUsuario(cliente);
+
+                    if (clienteGuardado.direccion != null && clienteGuardado.telefono != null)
                     {
-                        MessageBox.Show("Cliente guardado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        dataGridClientes.Rows.Clear();
-                        dataGridClientes.Enabled = true;
-                        ReiniciarTabla();
+
+                        if (!clienteGuardado.direccion.Equals(""))
+                        {
+                            MessageBox.Show("Cliente guardado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            dataGridClientes.Rows.Clear();
+                            dataGridClientes.Enabled = true;
+                            ReiniciarTabla();
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error, Revise los datos ingresados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+                        }
 
                     }
                     else
                     {
-                        MessageBox.Show("Error, Revise los datos ingresados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error, No se pudo encriptar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+                    }
+
+
+
+                }
+                else if (flag_operacion == 2)
+                {
+
+                    ClienteConexion clienteConexion = new ClienteConexion();
+                    ClienteDTO cliente = new ClienteDTO(nombre, apellido, direccion, telefono, dni, user);
+
+                    int respuesta = clienteConexion.ActualizarConUsuario(cliente, dni);
+
+                    switch (respuesta)
+                    {
+
+                        case 1:
+                            MessageBox.Show("Cliente modificado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            dataGridClientes.Rows.Clear();
+                            dataGridClientes.Enabled = true;
+                            ReiniciarTabla();
+                            break;
+
+                        case 2:
+                            MessageBox.Show("Error,  no se pudo encriptar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+
+                        case 3:
+                            MessageBox.Show("Error,  no se pudo encriptar los datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+
+                        default:
+                            MessageBox.Show("Error,  no se pudo modificar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
 
                     }
 
                 }
-                else
-                {
-                    MessageBox.Show("Error, No se pudo encriptar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-
-
 
             }
-            else if (flag_operacion == 2)
-            {
-
-                ClienteConexion clienteConexion = new ClienteConexion();
-                string nombre = txtNombre.Text;
-                string apellido = txtApellido.Text;
-                string direccion = txtDireccion.Text;
-                string telefono = txtTelefono.Text;
-                string dni = txtDNI.Text;
-                string user = txtUsuario.Text;
-                ClienteDTO cliente = new ClienteDTO(nombre, apellido, direccion, telefono, dni, user);
-                int respuesta = clienteConexion.ActualizarConUsuario(cliente, dni);
-
-                switch (respuesta)
-                {
-
-                    case 1:
-                        MessageBox.Show("Cliente modificado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        dataGridClientes.Rows.Clear();
-                        dataGridClientes.Enabled = true;
-                        ReiniciarTabla();
-                        break;
-
-                    case 2:
-                        MessageBox.Show("Error,  no se pudo encriptar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
-
-                    case 3:
-                        MessageBox.Show("Error,  no se pudo encriptar los datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
-
-                    default:
-                        MessageBox.Show("Error,  no se pudo modificar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
-
-                }
-
-            }
-
 
         }
 
@@ -403,8 +411,8 @@ namespace ciphertrust_app
                         ClienteDTO newCliente = clienteConexion.desencriptar(cliente);
 
                         file.WriteLine(Nombre + "," + Apellido + "," + newCliente.direccion + "," + newCliente.telefono + "," + Dni);
-                     }
-                     MessageBox.Show("Archivo exportado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    MessageBox.Show("Archivo exportado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -419,6 +427,78 @@ namespace ciphertrust_app
             PasswordDialog dlg = new PasswordDialog(flag_dni);
             dlg.ShowDialog();
 
+        }
+
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            if (txtTelefono.Text.Length >= 9)
+            {
+
+                if (e.KeyChar == (char)Keys.Back)
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+
+                    e.Handled = true;
+                }
+
+            }
+        }
+
+        private void txtDNI_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            if (txtDNI.Text.Length >= 8)
+            {
+
+                if (e.KeyChar == (char)Keys.Back)
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+
+                    e.Handled = true;
+                }
+
+            }
+
+        }
+
+        private void PantallaClientes_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                DialogResult resultado = MessageBox.Show("¿Seguro que quieres salir?", "Confirmación",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (resultado == DialogResult.Yes)
+                {
+
+                    Application.Exit();
+                }
+
+                if (resultado == DialogResult.No)
+                {
+                    e.Cancel = true; // Cancela el cierre
+                }
+            }
+            else {
+
+                Application.Exit();
+            }
         }
     }
 }

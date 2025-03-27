@@ -243,6 +243,7 @@
             txtDNI.Name = "txtDNI";
             txtDNI.Size = new Size(195, 27);
             txtDNI.TabIndex = 12;
+            txtDNI.KeyPress += txtDNI_KeyPress;
             // 
             // label6
             // 
@@ -260,6 +261,7 @@
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(195, 27);
             txtTelefono.TabIndex = 10;
+            txtTelefono.KeyPress += txtTelefono_KeyPress;
             // 
             // label5
             // 
@@ -359,6 +361,7 @@
             Name = "PantallaClientes";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Lista Usuarios";
+            FormClosing += PantallaClientes_FormClosing;
             ((System.ComponentModel.ISupportInitialize)dataGridClientes).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

@@ -116,7 +116,7 @@
             MaximizeBox = false;
             Name = "PasswordDialog";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "PasswordDialog";
+            Text = "Asignar Contraseña";
             ResumeLayout(false);
             PerformLayout();
         }
