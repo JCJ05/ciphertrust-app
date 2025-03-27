@@ -8,6 +8,7 @@ namespace ciphertrust_app
         public Login()
         {
             InitializeComponent();
+            this.Icon = Icon.FromHandle(((Bitmap)GestionClientes.GestionClientes.ICON).GetHicon());
         }
 
 

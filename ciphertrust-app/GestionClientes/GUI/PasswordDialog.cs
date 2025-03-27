@@ -17,6 +17,7 @@ namespace ciphertrust_app
         public PasswordDialog(string dni)
         {
             InitializeComponent();
+            this.Icon = Icon.FromHandle(((Bitmap)GestionClientes.GestionClientes.ICON).GetHicon());
             _dni = dni;
         }
 

@@ -159,7 +159,7 @@
             MaximumSize = new Size(int.MaxValue, int.MaxValue);
             Name = "Login";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "Login";
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);

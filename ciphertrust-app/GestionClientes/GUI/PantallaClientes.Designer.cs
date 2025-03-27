@@ -358,7 +358,7 @@
             Controls.Add(dataGridClientes);
             Name = "PantallaClientes";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "PantallaClientes";
+            Text = "Lista Usuarios";
             ((System.ComponentModel.ISupportInitialize)dataGridClientes).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

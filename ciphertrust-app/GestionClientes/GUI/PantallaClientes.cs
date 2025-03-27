@@ -28,6 +28,7 @@ namespace ciphertrust_app
         public PantallaClientes()
         {
             InitializeComponent();
+            this.Icon = Icon.FromHandle(((Bitmap)GestionClientes.GestionClientes.ICON).GetHicon());
             ReiniciarTabla();
         }
 
