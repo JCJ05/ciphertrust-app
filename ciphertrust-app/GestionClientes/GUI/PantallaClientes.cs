@@ -380,7 +380,7 @@ namespace ciphertrust_app
             //Aqui se quiere exportar los datos de la tabla en un archivo .txt
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string archivo = path + "\\Clientes.txt";
+            string archivo = path + "\\ClientesListado.txt";
 
             Debug.WriteLine("ruta donde se va a guardar el archivo: " + archivo);
 
@@ -391,9 +391,20 @@ namespace ciphertrust_app
                     file.WriteLine("Nombre,Apellido,Direccion,Telefono,DNI");
                     foreach (DataGridViewRow row in dataGridClientes.Rows)
                     {
-                        file.WriteLine(row.Cells[0].Value.ToString() + "," + row.Cells[1].Value.ToString() + "," + row.Cells[2].Value.ToString() + "," + row.Cells[3].Value.ToString() + "," + row.Cells[4].Value.ToString());
-                    }
-                    MessageBox.Show("Archivo exportado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ClienteConexion clienteConexion = new ClienteConexion();
+
+                        string Nombre = row.Cells[0].Value.ToString();
+                        string Apellido = row.Cells[1].Value.ToString();
+                        string Direccion = row.Cells[2].Value.ToString();
+                        string Telefono = row.Cells[3].Value.ToString();
+                        string Dni = row.Cells[4].Value.ToString();
+
+                        ClienteDTO cliente = new ClienteDTO(Nombre, Apellido, Direccion, Telefono, Dni);
+                        ClienteDTO newCliente = clienteConexion.desencriptar(cliente);
+
+                        file.WriteLine(Nombre + "," + Apellido + "," + newCliente.direccion + "," + newCliente.telefono + "," + Dni);
+                     }
+                     MessageBox.Show("Archivo exportado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)

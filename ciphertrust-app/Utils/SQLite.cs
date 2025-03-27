@@ -13,7 +13,7 @@ namespace ciphertrust_app.Utils
     internal class SQLite
     {
 
-        private readonly string connectionString = @"Data Source=C:\Users\jaguero\Downloads\db_gestion_clientes.db;Version=3;";
+        private readonly string connectionString = @"Data Source=C:\Users\DESARROLLO\Documents\NetBeansProjects\ciphertrust-demo-app\db_gestion_clientes.db;Version=3;";
 
         public SQLiteConnection? GetConnection()
         {

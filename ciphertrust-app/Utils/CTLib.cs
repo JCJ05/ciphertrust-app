@@ -48,8 +48,8 @@ namespace ciphertrust_app.Utils
 
                 NaeRijndaelKey key = new NaeRijndaelKey(session, KeyName);
 
-                byte[] iv = { 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31,
-                    0x32, 0x33, 0x34, 0x35 };
+                string hexIV = "3ABBE543B526F36290658A066F6CA619";
+                byte[] iv = HexStringToByteArray(hexIV);
                 key.IV = iv;
 
                 key.Padding = PaddingMode.PKCS7;
@@ -68,6 +68,7 @@ namespace ciphertrust_app.Utils
                 Console.WriteLine("Encrypted Data (B64 encoded): {0}", Convert.ToBase64String(encrBytes));
 
                 dataEncriptada = Convert.ToBase64String(encrBytes);
+                Debug.WriteLine("dataEncriptada: ", dataEncriptada);
 
                 byte[] decodedBytes = Convert.FromBase64String(dataEncriptada);
 
@@ -91,14 +92,18 @@ namespace ciphertrust_app.Utils
 
         public static byte[] HexStringToByteArray(string hex)
         {
-            byte[] bytes = new byte[hex.Length / 2];
-            for (int i = 0; i < hex.Length; i += 2)
+            int length = hex.Length;
+            byte[] bytes = new byte[length / 2];
+
+            for (int i = 0; i < length; i += 2)
             {
-                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+              bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             }
+
             return bytes;
-        }
-        public string? decryptDataWithSecretKey(string KeyName, NaeSession session, string data) {
+
+          }
+    public string? decryptDataWithSecretKey(string KeyName, NaeSession session, string data) {
 
             string desencriptarData = null;
 
@@ -107,14 +112,20 @@ namespace ciphertrust_app.Utils
 
                 NaeRijndaelKey key = new NaeRijndaelKey(session, KeyName);
 
-                byte[] iv = { 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31,
-                        0x32, 0x33, 0x34, 0x35 };
-                key.IV = iv;
+                byte[] decodedBytes = HexStringToByteArray(data);
+                string base64String = Convert.ToBase64String(decodedBytes);
+                Debug.WriteLine("base64string: ", base64String);
 
+                string hexIV = "3ABBE543B526F36290658A066F6CA619";
+
+                // Convertir la cadena hexadecimal a un arreglo de bytes
+                byte[] iv = HexStringToByteArray(hexIV);
+
+                key.IV = iv;
                 key.Padding = PaddingMode.PKCS7;
                 key.Mode = CipherMode.CBC;
 
-                byte[] encrBytes = Convert.FromBase64String(data);
+                byte[] encrBytes = Convert.FromBase64String(base64String);
 
                 ICryptoTransform decryptor = key.CreateDecryptor();
                 System.IO.MemoryStream memstr2 = new System.IO.MemoryStream();
@@ -130,7 +141,7 @@ namespace ciphertrust_app.Utils
             }
             catch (Exception e) { 
 
-                Console.WriteLine("Error al desencriptar los datos: " + e.Message);
+                Debug.WriteLine("Error al desencriptar los datos: " + e.Message);
 
             }
 
