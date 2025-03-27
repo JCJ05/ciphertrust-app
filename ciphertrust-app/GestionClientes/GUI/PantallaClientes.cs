@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using ciphertrust_app.Conexion;
 using ciphertrust_app.Datos;
 using ciphertrust_app.Model;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ciphertrust_app
 {
@@ -36,6 +37,37 @@ namespace ciphertrust_app
             this.Shown += QuitarSeleccion;
             dataGridClientes.SelectionChanged += SeleccionarCliente;
         }
+
+        public void setPass(string data)
+        {
+           
+            ClienteConexion clienteConexion = new ClienteConexion();
+            ClienteDTO clienteModificado;
+            bool rsptaM = false;
+
+            string NombreM = txtNombre.Text;
+            string ApellidoM = txtApellido.Text;
+            string DireccionM = txtDireccion.Text;
+            string TelefonoM = txtTelefono.Text;
+            string DniM = txtDNI.Text;
+            string UserM = txtUsuario.Text;
+            string PassM = data;
+
+            Debug.WriteLine(PassM);
+
+            clienteModificado = new ClienteDTO(NombreM, ApellidoM, DireccionM, TelefonoM, DniM, UserM, PassM);
+            rsptaM = clienteConexion.ActualizarPass(clienteModificado, DniM);
+
+            if (rsptaM)
+            {
+                MessageBox.Show("Actualización de contraseña exitosa");
+            }
+            else
+            {
+                MessageBox.Show("Error, Revise los campos");
+            }
+        }
+
 
         private void SeleccionarCliente(object? sender, EventArgs e)
         {
@@ -364,6 +396,13 @@ namespace ciphertrust_app
             {
                 MessageBox.Show("Error, no se pudo exportar el archivo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+        }
+
+        private void btnAsignarContraseña_Click(object sender, EventArgs e)
+        {
+            PasswordDialog dlg = new PasswordDialog();
+            dlg.ShowDialog();
 
         }
     }

@@ -347,6 +347,7 @@
             btnAsignarContraseña.TabIndex = 0;
             btnAsignarContraseña.Text = "Asignar Contraseña";
             btnAsignarContraseña.UseVisualStyleBackColor = true;
+            btnAsignarContraseña.Click += btnAsignarContraseña_Click;
             // 
             // PantallaClientes
             // 
