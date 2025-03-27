@@ -12,10 +12,12 @@ namespace ciphertrust_app
 {
     public partial class PasswordDialog : Form
     {
+        private readonly string _dni;
        
-        public PasswordDialog()
+        public PasswordDialog(string dni)
         {
             InitializeComponent();
+            _dni = dni;
         }
 
         private void btnCancelarContra_Click(object sender, EventArgs e)
@@ -41,7 +43,7 @@ namespace ciphertrust_app
                 if (password1.Equals(password2))
                 {
                     PantallaClientes pantallaClientes = new PantallaClientes();
-                    pantallaClientes.setPass(password1);
+                    pantallaClientes.setPass(password1 , _dni);
                     this.Close();
 
                 }

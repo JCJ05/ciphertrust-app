@@ -23,6 +23,7 @@ namespace ciphertrust_app
         private int flag_operacion = 0;
         private string? flag_direccion = "";
         private string? flag_telefono = "";
+        private string? flag_dni = "";
 
         public PantallaClientes()
         {
@@ -38,7 +39,7 @@ namespace ciphertrust_app
             dataGridClientes.SelectionChanged += SeleccionarCliente;
         }
 
-        public void setPass(string data)
+        public void setPass(string data , string dni)
         {
            
             ClienteConexion clienteConexion = new ClienteConexion();
@@ -53,10 +54,10 @@ namespace ciphertrust_app
             string UserM = txtUsuario.Text;
             string PassM = data;
 
-            Debug.WriteLine(PassM);
+            Debug.WriteLine(DniM);
 
             clienteModificado = new ClienteDTO(NombreM, ApellidoM, DireccionM, TelefonoM, DniM, UserM, PassM);
-            rsptaM = clienteConexion.ActualizarPass(clienteModificado, DniM);
+            rsptaM = clienteConexion.ActualizarPass(clienteModificado, dni);
 
             if (rsptaM)
             {
@@ -79,6 +80,8 @@ namespace ciphertrust_app
                 {
                     ClienteConexion clienteConexion = new ClienteConexion();
                     ClienteDTO? cliente = clienteConexion.obtenerPorDni(dni);
+
+                    flag_dni = dni;
 
                     if (cliente != null)
                     {
@@ -401,7 +404,7 @@ namespace ciphertrust_app
 
         private void btnAsignarContraseña_Click(object sender, EventArgs e)
         {
-            PasswordDialog dlg = new PasswordDialog();
+            PasswordDialog dlg = new PasswordDialog(flag_dni);
             dlg.ShowDialog();
 
         }
